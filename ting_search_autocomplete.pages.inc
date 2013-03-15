@@ -2,7 +2,7 @@
 
 function ting_search_autocomplete($query = NULL) {
   $query = $_GET['query'];
-  $results   = array();
+  $return = array();
   $delimiter = 0;
 
   if ($query == TRUE) {
@@ -18,11 +18,13 @@ function ting_search_autocomplete($query = NULL) {
       // Scan for search results
       $scan_results = ting_do_scan($query, 'anyIndexes', 10);
       if ($scan_results) {
-        foreach ($scan_results->terms as $term) {
-          $terms['any'][strtolower($term->name)] = $term;
+        if (is_array($scan_results->terms)) {
+          foreach ($scan_results->terms as $term) {
+            $terms['any'][strtolower($term->name)] = $term;
+          }
+          uasort($terms['any'], 'ting_search_autocomplete_term_sort');
+          $terms['any'] = array_reverse($terms['any']);
         }
-        uasort($terms['any'], 'ting_search_autocomplete_term_sort');
-        $terms['any'] = array_reverse($terms['any']);
 
         // Scan for spell suggestions
         $spell_suggestions = ting_get_spell_suggestions($query, 3);
@@ -36,29 +38,28 @@ function ting_search_autocomplete($query = NULL) {
         }
 
         foreach ($terms as $type => $row) {
-          foreach ($row as $term) {
-            $value = ting_search_autocomplete_substr_word_bondary($term->name);
-            if ($type == 'spell') {
-              $return[] = array(
-                'id'    => $term->name,
-                'value' => $value,
-                'label' => t('Did you mean \'@query\' ?', array('@query' => $term->name)),
-              );
-            }
-            else {
-              $return[] = array(
-                'id'    => $term->name,
-                'value' => $value,
-                'label' => $term->name,
-              );
+          if (is_array($row)) {
+            foreach ($row as $term) {
+              $value = ting_search_autocomplete_substr_word_bondary($term->name);
+              if ($type == 'spell') {
+                $return[] = array(
+                  'id'    => $term->name,
+                  'value' => $value,
+                  'label' => t('Did you mean \'@query\' ?', array('@query' => $term->name)),
+                );
+              }
+              else {
+                $return[] = array(
+                  'id'    => $term->name,
+                  'value' => $value,
+                  'label' => $term->name,
+                );
+              }
             }
           }
         }
 
         cache_set(md5($query), $return, 'cache_ting_search_autocomplete', CACHE_TEMPORARY);
-      }
-      else {
-        $return = array();
       }
     }
   }
