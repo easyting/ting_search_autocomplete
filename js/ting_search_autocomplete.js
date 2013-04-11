@@ -1,11 +1,11 @@
 (function($) {
-    /*
+    /**
      * Function enabling the advanced search feature.
      **/
     jQuery.fn.tingEnableAdvancedSearch = function(){
-      // Show advanced search  
+      // Show advanced search.
       $(".fieldset-legend").show();
-      // Enable autocomplete
+      // Enable autocomplete.
       $(this).autocomplete({
         minLength: 3,
         source: function(request, response) {
@@ -14,7 +14,7 @@
           }, response);
         },
         search: function(event, ui) {
-          // When a search is beginning, show the spinner
+          // When a search is beginning, show the spinner.
           $(this).addClass('spinner');
         },
         open: function(event, ui) {
@@ -30,7 +30,7 @@
         }
       });        
     };
-    /*
+    /**
      * Function disabling the advanced search feature.
      **/    
     jQuery.fn.tingDisableAdvancedSearch = function(){
@@ -39,36 +39,36 @@
      if((this['selector']+'spinner').length>0){
        $(this).removeClass('spinner');
      }
-      // Disable autocomplete  
+      // Disable autocomplete.  
       $(this).autocomplete({
-        // Overwrite source
+        // Overwrite source function.
         source: [],
-        // Overwrite search
+        // Overwrite search function.
         search: function(event, ui) {
         },
-        // Overwrite open function
+        // Overwrite open function.
         open: function(event, ui) {
         },
-        // Overwrite select function
+        // Overwrite select function.
         select: function(event, ui) {
         }
       });        
     };
-    // Register event for clicking MATERIAL
+    // Register event for clicking MATERIAL.
     $('input#edit-search-provider-ting.form-radio').live('click', function() {
       $('#edit-search-block-form--2').tingEnableAdvancedSearch();
     }); 
-    // Register event for clicking WEBSITE
+    // Register event for clicking WEBSITE.
     $('input#edit-search-provider-node.form-radio').live('click', function() {
       $('#edit-search-block-form--2').tingDisableAdvancedSearch(); 
     });
-    // Register event for clicking E-RESOURCES
+    // Register event for clicking E-RESOURCES.
     $('input#edit-search-provider-meta.form-radio').live('click', function() {
       $('#edit-search-block-form--2').tingDisableAdvancedSearch();
     });
     Drupal.behaviors.tingSearchAutocomplete = {
     attach: function(context) {
-        $('#edit-search-block-form--2').tingEnableAdvancedSearch();
+      $('#edit-search-block-form--2').tingEnableAdvancedSearch();
     }
   };
 } (jQuery));
