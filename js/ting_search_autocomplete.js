@@ -5,7 +5,7 @@
     jQuery.fn.tingEnableAdvancedSearch = function(){
       // Show advanced search.
       $(".fieldset-legend").show();
-	  $(".block-search-form form .extendsearch-advanced").addClass('enabled');
+      $(".block-search-form form .extendsearch-advanced").addClass('enabled');
       // Enable autocomplete.
       $(this).autocomplete({
         minLength: 3,
@@ -17,12 +17,12 @@
         search: function(event, ui) {
           // When a search is beginning, show the spinner.
           $(this).addClass('spinner');
-		  $(this).parent().addClass('spinner-wrapper');
+          $(this).parent().addClass('spinner-wrapper');
         },
         open: function(event, ui) {
           // When a search is done, use this, to hide the spinner.
           $(this).removeClass('spinner');
-		  $(this).parent().removeClass('spinner-wrapper');
+          $(this).parent().removeClass('spinner-wrapper');
         },
         select: function(event, ui) {
           // Add the chosen value to the searchbox and submit.
@@ -39,7 +39,7 @@
     jQuery.fn.tingDisableAdvancedSearch = function(){
       // Hide advanced search
      $(".fieldset-legend").hide();
-	 $(".block-search-form form .extendsearch-advanced").removeClass('enabled');
+     $(".block-search-form form .extendsearch-advanced").removeClass('enabled');
      if((this['selector']+'spinner').length>0){
        $(this).removeClass('spinner');
        $(this).parent().removeClass('spinner-wrapper');
