@@ -2,7 +2,7 @@
   Drupal.behaviors.tingSearchAutocomplete = {
     attach: function(context) {
 
-      $('#edit-search-block-form--2').autocomplete({
+      var autocomplete_settings = {
         minLength: 3,
         source: function(request, response) {
           $.getJSON(Drupal.settings.basePath + 'ting/autocomplete', {
@@ -24,7 +24,18 @@
             $('#search-block-form').submit();
           }
         }
-      });
+      };
+
+      // Override the settings, making the autocomplete disabled.
+      if (Drupal.settings.ting_search_autocomplete.autocomplete_enabled === false) {
+        autocomplete_settings = {
+          source: function() {
+
+          }
+        };
+      }
+
+      $('#edit-search-block-form--2').autocomplete(autocomplete_settings);
     }
   };
 } (jQuery));
