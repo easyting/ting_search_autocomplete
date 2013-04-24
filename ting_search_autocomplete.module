@@ -32,20 +32,10 @@ function ting_search_autocomplete_form_search_block_form_alter(&$form, &$form_st
   $scan_url = variable_get('ting_scan_url', '');
   $spell_url = variable_get('ting_spell_url', '');
 
-  drupal_add_library('system', 'ui.autocomplete');
-  drupal_add_css(drupal_get_path('module', 'ting_search_autocomplete') . '/css/ting_search_autocomplete.css');
-  drupal_add_js(drupal_get_path('module', 'ting_search_autocomplete') . '/js/ting_search_autocomplete.js');
-
-  $js_setting = array(
-    'ting_search_autocomplete' => array(
-      'autocomplete_enabled' => FALSE
-    ),
-  );
-
   if (!empty($scan_url) && !empty($spell_url)) {
-    $js_setting['ting_search_autocomplete']['autocomplete_enabled'] = TRUE;
+    drupal_add_library('system', 'ui.autocomplete');
+    drupal_add_css(drupal_get_path('module', 'ting_search_autocomplete') . '/css/ting_search_autocomplete.css');
+    drupal_add_js(drupal_get_path('module', 'ting_search_autocomplete') . '/js/ting_search_autocomplete.js');
   }
-
-  drupal_add_js($js_setting, 'setting');
 }
 
