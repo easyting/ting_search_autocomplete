@@ -1,7 +1,9 @@
 (function($) {
   Drupal.behaviors.tingSearchAutocomplete = {
     attach: function(context) {
-      $('.block-search-form form input[name="search_block_form"]').autocomplete({
+      var input_selector = '.block-search-form form input[name="search_block_form"]';
+
+      $(input_selector).autocomplete({
         minLength: 3,
         source: function(request, response) {
           $.getJSON(Drupal.settings.basePath + 'ting/autocomplete', {
@@ -10,16 +12,16 @@
         },
         search: function(event, ui) {
           // When a search is beginning, show the spinner
-          $('#edit-search-block-form--2').addClass('spinner');
+          $(input_selector).addClass('spinner');
         },
         open: function(event, ui) {
           // When a search is done, use this, to hide the spinner.
-          $('#edit-search-block-form--2').removeClass('spinner');
+          $(input_selector).removeClass('spinner');
         },
         select: function(event, ui) {
           // Add the chosen value to the searchbox and submit.
           if (ui.item) {
-            $('#edit-search-block-form--2').val(ui.item.value);
+            $(input_selector).val(ui.item.value);
             $('#search-block-form').submit();
           }
         }
