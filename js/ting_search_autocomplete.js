@@ -31,11 +31,11 @@
             $('#search-block-form').submit();
           }
         }
-      });        
+      });
     };
     /**
      * Function disabling the advanced search feature.
-     **/    
+     **/
     jQuery.fn.tingDisableAdvancedSearch = function(){
       // Hide advanced search
      $(".fieldset-legend").hide();
@@ -44,7 +44,7 @@
        $(this).removeClass('spinner');
        $(this).parent().removeClass('spinner-wrapper');
      }
-      // Disable autocomplete.  
+      // Disable autocomplete.
       $(this).autocomplete({
         // Overwrite source function.
         source: [],
@@ -57,11 +57,11 @@
         // Overwrite select function.
         select: function(event, ui) {
         }
-      });        
+      });
     };
     /**
      * Function moves advanced search values to default search field.
-     **/    
+     **/
     jQuery.fn.tingMoveAdvancedSearchValues = function(){
       if($('#edit-search-block-form--2').val()){
         $('#edit-search-block-form--2').data('default', $('#edit-search-block-form--2').data('default')||$('#edit-search-block-form--2').val());
@@ -81,7 +81,7 @@
     // Register event for clicking MATERIAL.
     $('input#edit-search-provider-ting.form-radio').live('click', function() {
       $('#edit-search-block-form--2').tingEnableAdvancedSearch();
-    }); 
+    });
     // Register event for clicking WEBSITE and E-RESOURCES.
     $('input#edit-search-provider-node.form-radio, input#edit-search-provider-meta.form-radio').live('click', function() {
       $('#edit-search-block-form--2').tingDisableAdvancedSearch();
@@ -93,4 +93,3 @@
     }
   };
 } (jQuery));
-
