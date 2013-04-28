@@ -7,12 +7,14 @@
 /**
  * Implementation of hook_install().
  */
-function ting_search_autocomplete_install() {}
+function ting_search_autocomplete_install() {
+}
 
 /**
  * Implementation of hook_uninstall().
  */
-function ting_search_autocomplete_uninstall() {}
+function ting_search_autocomplete_uninstall() {
+}
 
 /**
  * Implementation of hook_schema().
