@@ -72,11 +72,13 @@
 
       /**
        * Function moves advanced search values to default search field.
+       * Values are moved only if the placeholder attribute is different from the value of the field.
+       * This precaution is taken to prevent ie8 from filling the field with the placeholder attribute.   
        **/    
       function tingMoveAdvancedSearchValues() {
         var fieldValue = $('.block-search-form form input[name="search_block_form"]').val();
         $('.block-search-form .extendsearch-advanced input').each(function() {
-          if ($(this).val().length > 0) {
+          if (($(this).val().length > 0) && ($(this).attr('placeholder') != $(this).val())) {
             fieldValue += ' ' + $(this).val();
             $(this).val('');
           }
