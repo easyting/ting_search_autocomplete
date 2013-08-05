@@ -19,19 +19,16 @@
             }, response);
           },
           search: function(event, ui) {
-
             // When a search is beginning, show the spinner.
             $('.block-search-form form input[name="search_block_form"]').addClass('spinner');
             $('.block-search-form form input[name="search_block_form"]').parent().addClass('spinner-wrapper');
           },
           open: function(event, ui) {
-
             // When a search is done, use this, to hide the spinner.
             $('.block-search-form form input[name="search_block_form"]').removeClass('spinner');
             $('.block-search-form form input[name="search_block_form"]').parent().removeClass('spinner-wrapper');
           },
           select: function(event, ui) {
-
             // Add the chosen value to the searchbox and submit.
             if (ui.item) {
               $('.block-search-form form input[name="search_block_form"]').val(ui.item.value);
@@ -75,11 +72,13 @@
 
       /**
        * Function moves advanced search values to default search field.
+       * Values are moved only if the placeholder attribute is different from the value of the field.
+       * This precaution is taken to prevent ie8 from filling the field with the placeholder attribute.   
        **/    
       function tingMoveAdvancedSearchValues() {
         var fieldValue = $('.block-search-form form input[name="search_block_form"]').val();
         $('.block-search-form .extendsearch-advanced input').each(function() {
-          if ($(this).val().length > 0) {
+          if (($(this).val().length > 0) && ($(this).attr('placeholder') != $(this).val())) {
             fieldValue += ' ' + $(this).val();
             $(this).val('');
           }
