@@ -1,11 +1,12 @@
 (function($) {
- Drupal.behaviors.tingSearchAutocomplete = {
+  var xhrRequests = [];
+
+  Drupal.behaviors.tingSearchAutocomplete = {
     attach: function(context) {
       /**
        * Function enabling the advanced search feature.
        **/
       function tingEnableAdvancedSearch() {
-
         // Show advanced search.
         $('.fieldset-legend').show();
         $('.block-search-form form .extendsearch-advanced').addClass('enabled');
@@ -15,8 +16,14 @@
           minLength: 3,
           source: function(request, response) {
             jsonReq = $.getJSON(Drupal.settings.basePath + 'ting/autocomplete', {
-              query: request.term
+              query: request.term,
             }, response);
+
+            // Let only the last request pass.
+            xhrRequests.push(jsonReq);
+            for (var i = 0; i < xhrRequests.length - 1; i++) {
+              xhrRequests[i].abort();
+            }
           },
           search: function(event, ui) {
             // When a search is beginning, show the spinner.
@@ -45,6 +52,7 @@
         // Hide advanced search.
         $('.fieldset-legend').hide();
         $('.block-search-form form .extendsearch-advanced').removeClass('enabled');
+
         if ($('.block-search-form form input[name="search_block_form"]').hasClass('spinner')) {
           $('.block-search-form form input[name="search_block_form"]').removeClass('spinner');
           $('.block-search-form form input[name="search_block_form"]').parent().removeClass('spinner-wrapper');
