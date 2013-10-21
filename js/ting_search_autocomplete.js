@@ -1,11 +1,12 @@
 (function($) {
- Drupal.behaviors.tingSearchAutocomplete = {
+  var xhrRequest = null;
+
+  Drupal.behaviors.tingSearchAutocomplete = {
     attach: function(context) {
       /**
        * Function enabling the advanced search feature.
        **/
       function tingEnableAdvancedSearch() {
-
         // Show advanced search.
         $('.fieldset-legend').show();
         $('.block-search-form form .extendsearch-advanced').addClass('enabled');
@@ -14,7 +15,11 @@
         $('.block-search-form form input[name="search_block_form"]').autocomplete({
           minLength: 3,
           source: function(request, response) {
-            jsonReq = $.getJSON(Drupal.settings.basePath + 'ting/autocomplete', {
+            if (xhrRequest !== null) {
+              xhrRequest.abort();
+            }
+
+            xhrRequest = $.getJSON(Drupal.settings.basePath + 'ting/autocomplete', {
               query: request.term
             }, response);
           },
@@ -35,22 +40,23 @@
               $('#search-block-form').submit();
             }
           }
-        });        
+        });
       }
 
       /**
        * Function disabling the advanced search feature.
-       **/    
+       **/
       function tingDisableAdvancedSearch() {
         // Hide advanced search.
         $('.fieldset-legend').hide();
         $('.block-search-form form .extendsearch-advanced').removeClass('enabled');
+
         if ($('.block-search-form form input[name="search_block_form"]').hasClass('spinner')) {
           $('.block-search-form form input[name="search_block_form"]').removeClass('spinner');
           $('.block-search-form form input[name="search_block_form"]').parent().removeClass('spinner-wrapper');
         }
 
-        // Disable autocomplete.  
+        // Disable autocomplete.
         $('.block-search-form form input[name="search_block_form"]').autocomplete({
 
           // Overwrite source function.
@@ -67,14 +73,14 @@
           // Overwrite select function.
           select: function(event, ui) {
           }
-        });        
+        });
       }
 
       /**
        * Function moves advanced search values to default search field.
        * Values are moved only if the placeholder attribute is different from the value of the field.
-       * This precaution is taken to prevent ie8 from filling the field with the placeholder attribute.   
-       **/    
+       * This precaution is taken to prevent ie8 from filling the field with the placeholder attribute.
+       **/
       function tingMoveAdvancedSearchValues() {
         var fieldValue = $('.block-search-form form input[name="search_block_form"]').val();
         $('.block-search-form .extendsearch-advanced input').each(function() {
@@ -96,7 +102,12 @@
         tingDisableAdvancedSearch();
         tingMoveAdvancedSearchValues();
       });
- 
+
+      // Disable autocomplete when form is submitted.
+      $('#search-block-form').submit(function() {
+        tingDisableAdvancedSearch();
+      });
+
       tingEnableAdvancedSearch();
     }
   };
