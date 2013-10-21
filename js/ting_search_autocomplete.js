@@ -8,7 +8,7 @@
        **/
       function tingEnableAdvancedSearch() {
         // Show advanced search.
-        $('.fieldset-legend').show();
+        $('.block-search-form .fieldset-legend').show();
         $('.block-search-form form .extendsearch-advanced').addClass('enabled');
 
         // Enable autocomplete.
@@ -48,7 +48,7 @@
        **/
       function tingDisableAdvancedSearch() {
         // Hide advanced search.
-        $('.fieldset-legend').hide();
+        $('.block-search-form .fieldset-legend').hide();
         $('.block-search-form form .extendsearch-advanced').removeClass('enabled');
 
         if ($('.block-search-form form input[name="search_block_form"]').hasClass('spinner')) {
