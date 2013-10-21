@@ -16,7 +16,7 @@
           minLength: 3,
           source: function(request, response) {
             jsonReq = $.getJSON(Drupal.settings.basePath + 'ting/autocomplete', {
-              query: request.term,
+              query: request.term
             }, response);
 
             // Let only the last request pass.
