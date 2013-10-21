@@ -1,5 +1,5 @@
 (function($) {
-  var xhrRequests = [];
+  var xhrRequest = null;
 
   Drupal.behaviors.tingSearchAutocomplete = {
     attach: function(context) {
@@ -15,15 +15,13 @@
         $('.block-search-form form input[name="search_block_form"]').autocomplete({
           minLength: 3,
           source: function(request, response) {
-            jsonReq = $.getJSON(Drupal.settings.basePath + 'ting/autocomplete', {
+            if (xhrRequest !== null) {
+              xhrRequest.abort();
+            }
+
+            xhrRequest = $.getJSON(Drupal.settings.basePath + 'ting/autocomplete', {
               query: request.term
             }, response);
-
-            // Let only the last request pass.
-            xhrRequests.push(jsonReq);
-            for (var i = 0; i < xhrRequests.length - 1; i++) {
-              xhrRequests[i].abort();
-            }
           },
           search: function(event, ui) {
             // When a search is beginning, show the spinner.
